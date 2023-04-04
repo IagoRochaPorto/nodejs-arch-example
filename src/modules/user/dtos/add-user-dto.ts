@@ -7,6 +7,6 @@ export namespace AddUserDto {
     }
 
     export interface Response {
-        id: string
-    }        
+        id: number
+    }
 }

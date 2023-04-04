@@ -3,13 +3,13 @@ import { AddUser } from "./../../../../src/modules/user/useCases/addUser"
 const params = {
   name: 'John Doe',
   email: 'any@email.com',
-    password: 'any_password',
-    age: 25,
+  password: 'any_password',
+  age: 25,
 }
 
 const makeSut = () => {
   const mockedAddUserRepository = {
-    add: jest.fn(() => Promise.resolve({ id: 'any_id' }))
+    add: jest.fn(() => Promise.resolve({ id: 1 }))
   }
   const mockedEncrypter = {
     encrypt: jest.fn(() => Promise.resolve('any_encrypted_password'))
@@ -25,7 +25,7 @@ const makeSut = () => {
 
 describe('Add User', () => {
   it('Should call encrypter with correct value', async () => {
-    const {sut, mockedEncrypter } = makeSut()
+    const { sut, mockedEncrypter } = makeSut()
     const spy = jest.spyOn(mockedEncrypter, 'encrypt')
 
     await sut.execute(params)
@@ -34,10 +34,10 @@ describe('Add User', () => {
   })
 
   it('Should call addUserRepository with correct value', async () => {
-    const {sut, mockedAddUserRepository } = makeSut()
+    const { sut, mockedAddUserRepository } = makeSut()
     const spy = jest.spyOn(mockedAddUserRepository, 'add')
 
-    await sut.execute(params)  
+    await sut.execute(params)
 
     expect(spy).toHaveBeenCalledWith({
       name: 'John Doe',
@@ -50,8 +50,8 @@ describe('Add User', () => {
   it('Should return an user with correct id', async () => {
     const { sut } = makeSut()
 
-    const user = await sut.execute(params)  
+    const user = await sut.execute(params)
 
-    expect(user.id).toBe('any_id')
+    expect(user.id).toBe(1)
   })
 })
