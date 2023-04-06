@@ -1,6 +1,10 @@
 import "reflect-metadata"
-import express from 'express'
+import dotenv from 'dotenv'
+import express, { Router } from 'express'
 import { dataSource } from '@/infra/database/typeorm/appDataSource'
+import { makeRouterFactory } from "./factories/routes/routerFactory"
+
+dotenv.config()
 
 dataSource.initialize()
   .then(() => console.log('Database is connected'))
@@ -10,9 +14,9 @@ const server = express()
 
 server.use(express.json())
 
-server.get('/', (req, res) => {
-  res.send('Hello World')
-})
+const router = makeRouterFactory()
+
+server.use(router)
 
 server.listen(3000, () => {
   console.log('Server is running')
