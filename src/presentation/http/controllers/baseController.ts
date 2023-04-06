@@ -1,7 +1,7 @@
-import { HttpRequest, HttpResponse } from "../protocols"
+import { HttpRequest, HttpResponse, Controller } from "../protocols"
 
-export abstract class BaseController {
-  public async execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
+export abstract class BaseController implements Controller {
+  public async execute(req: HttpRequest, res: HttpResponse): Promise<HttpResponse> {
     const result = await this.perform(req, res)
     return {
       statusCode: result.statusCode,
@@ -9,5 +9,5 @@ export abstract class BaseController {
     }
   }
 
-  protected abstract perform(req: HttpRequest, res: Response): Promise<HttpResponse>
+  protected abstract perform(req: HttpRequest, res: HttpResponse): Promise<HttpResponse>
 }
