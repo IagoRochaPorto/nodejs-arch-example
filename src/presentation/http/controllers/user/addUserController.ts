@@ -1,6 +1,7 @@
 import { HttpRequest, HttpResponse } from "@/presentation/http/protocols";
-import { AddUser } from "@/modules/user/useCases";
 import { BaseController } from "../baseController";
+import { UseCase } from "@/shared/types";
+import { AddUserDto } from "@/modules/user/dtos";
 
 interface UserBody {
   name: string
@@ -9,12 +10,15 @@ interface UserBody {
   age: number
 }
 
-export class AddUserController extends BaseController {
-  constructor(private readonly addUserService: AddUser) {
+type Request = HttpRequest<UserBody>
+type Response = HttpResponse<{ id: number }>
+
+export class AddUserController extends BaseController<Request, Response> {
+  constructor(private readonly addUserService: UseCase<AddUserDto.Request, AddUserDto.Response>) {
     super()
   }
 
-  protected async perform(req: HttpRequest<UserBody>, res: HttpResponse): Promise<HttpResponse> {
+  protected async perform(req: Request): Promise<Response> {
     const { body } = req
 
     if (!body) {

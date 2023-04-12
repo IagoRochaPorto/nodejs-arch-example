@@ -1,3 +1,3 @@
-export interface UseCase<Params, Response> {
+export interface UseCase<Params = {}, Response = {}> {
   execute: (request: Params) => Promise<Response>
 }
