@@ -2,7 +2,7 @@ import { BaseController } from "./../../src/presentation/http/controllers/baseCo
 
 function makeSut() {
   class Sut extends BaseController {
-    async perform(req: any, res: any): Promise<any> {
+    async perform(): Promise<any> {
       return {
         statusCode: 200,
         body: { id: 1 }
@@ -18,8 +18,8 @@ describe('BaseController', () => {
     const { sut } = makeSut()
     const performSpy = jest.spyOn(sut, 'perform')
 
-    await sut.execute({ body: { name: 'any_name' } }, {} as any)
+    await sut.execute({ body: { name: 'any_name' } })
 
-    expect(performSpy).toHaveBeenCalledWith({ body: { name: 'any_name' } }, {} as any)
+    expect(performSpy).toHaveBeenCalledWith({ body: { name: 'any_name' } })
   })
 })
